@@ -48,7 +48,9 @@ enum SMBCore {
         guard let key = key(ofURL: s) else { throw SMBError("smb://ホスト/共有名 の形で指定してください: \(raw)") }
         var shares = loadShares()
         if shares.contains(where: { Self.key(ofURL: $0.url) == key }) { throw SMBError("登録済み: \(s)") }
-        let share = Share(name: name ?? key.share, url: s)
+        // 表示名の既定は共有名（照合用の key は小文字なので、URL から元の表記を取る）
+        let original = URLComponents(string: s)?.path.split(separator: "/").first.map(String.init)
+        let share = Share(name: name ?? original ?? key.share, url: s)
         shares.append(share)
         try saveShares(shares)
         return share
