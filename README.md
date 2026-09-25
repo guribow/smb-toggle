@@ -69,6 +69,8 @@ smbctl remove share                  # 登録から外す
 | `app/main.swift` | メニューバーアプリ（`NSStatusItem`、Dock には出ない） |
 | `app/Info.plist` | アプリの設定（`LSUIElement`、Bundle ID `com.guribow.smbtoggle`） |
 | `cli/main.swift` | `smbctl` コマンド |
+| `icon/make-icon.swift` | アプリアイコンを作るスクリプト |
+| `icon/AppIcon.icns` | アプリアイコン（青い角丸四角に白いネットワークドライブの記号） |
 | `build.sh` | ビルドとインストール |
 | `build/` | ビルド結果（生成物） |
 
@@ -86,6 +88,14 @@ Xcode（`swiftc`）が必要。
 cd ~/ClaudWork/smb-toggle && ./build.sh
 open ~/Applications/SMBToggle.app
 ```
+
+アイコンを変えるときは `icon/make-icon.swift` の色や記号を書き換えて、次を実行してからビルドし直す。
+
+```bash
+swift icon/make-icon.swift   # icon/AppIcon.icns を作り直す
+```
+
+Finder に古いアイコンが残るときは `touch ~/Applications/SMBToggle.app` を実行する。
 
 ## 仕組み
 
