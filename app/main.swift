@@ -32,49 +32,49 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     // メニューを開くたびに作り直す
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
-        let about = NSMenuItem(title: "SMBToggle について", action: #selector(showAbout), keyEquivalent: "")
+        let about = NSMenuItem(title: L("SMBToggle について"), action: #selector(showAbout), keyEquivalent: "")
         about.target = self
         menu.addItem(about)
         menu.addItem(.separator())
         let list = SMBCore.all()
         if list.isEmpty {
-            menu.addItem(disabledItem("登録した共有なし"))
+            menu.addItem(disabledItem(L("登録した共有なし")))
         }
         for s in list {
-            var title = s.registered ? s.name : "\(s.name)（未登録）"
-            if busy.contains(s.name) { title += " …接続中" }
+            var title = s.registered ? s.name : L("%@（未登録）", s.name)
+            if busy.contains(s.name) { title += L(" …接続中") }
             let item = NSMenuItem(title: title, action: #selector(toggleShare(_:)), keyEquivalent: "")
             item.target = self
             item.state = s.mounted ? .on : .off
             item.representedObject = s.name
-            item.toolTip = s.mounted ? "クリックで取り外す（\(s.mountPoint!)）" : "クリックでマウントする（\(s.url ?? "")）"
+            item.toolTip = s.mounted ? L("クリックで取り外す（%@）", s.mountPoint!) : L("クリックでマウントする（%@）", s.url ?? "")
             item.isEnabled = !busy.contains(s.name)
             menu.addItem(item)
         }
 
         menu.addItem(.separator())
-        let mountAll = NSMenuItem(title: "すべてマウント", action: #selector(mountAll), keyEquivalent: "")
+        let mountAll = NSMenuItem(title: L("すべてマウント"), action: #selector(mountAll), keyEquivalent: "")
         mountAll.target = self
         mountAll.isEnabled = list.contains { $0.registered && !$0.mounted }
         menu.addItem(mountAll)
-        let unmountAll = NSMenuItem(title: "すべて取り外す", action: #selector(unmountAll), keyEquivalent: "")
+        let unmountAll = NSMenuItem(title: L("すべて取り外す"), action: #selector(unmountAll), keyEquivalent: "")
         unmountAll.target = self
         unmountAll.isEnabled = list.contains(where: \.mounted)
         menu.addItem(unmountAll)
 
         menu.addItem(.separator())
-        let add = NSMenuItem(title: "共有を追加…", action: #selector(addShare), keyEquivalent: "")
+        let add = NSMenuItem(title: L("共有を追加…"), action: #selector(addShare), keyEquivalent: "")
         add.target = self
         menu.addItem(add)
         let unregistered = list.filter { !$0.registered }
         if !unregistered.isEmpty {
-            let reg = NSMenuItem(title: "マウント中の共有を登録", action: #selector(registerMounted), keyEquivalent: "")
+            let reg = NSMenuItem(title: L("マウント中の共有を登録"), action: #selector(registerMounted), keyEquivalent: "")
             reg.target = self
             menu.addItem(reg)
         }
         let shares = SMBCore.loadShares()
         if !shares.isEmpty {
-            let removeItem = NSMenuItem(title: "登録から外す", action: nil, keyEquivalent: "")
+            let removeItem = NSMenuItem(title: L("登録から外す"), action: nil, keyEquivalent: "")
             let sub = NSMenu()
             for s in shares {
                 let i = NSMenuItem(title: "\(s.name)  \(s.url)", action: #selector(removeShare(_:)), keyEquivalent: "")
@@ -87,11 +87,11 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         }
 
         menu.addItem(.separator())
-        let login = NSMenuItem(title: "ログイン時に起動", action: #selector(toggleLoginItem), keyEquivalent: "")
+        let login = NSMenuItem(title: L("ログイン時に起動"), action: #selector(toggleLoginItem), keyEquivalent: "")
         login.target = self
         login.state = SMAppService.mainApp.status == .enabled ? .on : .off
         menu.addItem(login)
-        menu.addItem(NSMenuItem(title: "終了", action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
+        menu.addItem(NSMenuItem(title: L("終了"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     }
 
     private func disabledItem(_ title: String) -> NSMenuItem {
@@ -143,18 +143,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc private func addShare() {
         let alert = NSAlert()
-        alert.messageText = "SMB 共有を追加"
-        alert.informativeText = "例：smb://nas.local/share または smb://user@192.168.1.10/share\n表示名は空欄なら共有名になります。"
+        alert.messageText = L("SMB 共有を追加")
+        alert.informativeText = L("例：smb://nas.local/share または smb://user@192.168.1.10/share\n表示名は空欄なら共有名になります。")
         let url = NSTextField(frame: NSRect(x: 0, y: 30, width: 320, height: 24))
-        url.placeholderString = "smb://ホスト/共有名"
+        url.placeholderString = L("smb://ホスト/共有名")
         let name = NSTextField(frame: NSRect(x: 0, y: 0, width: 320, height: 24))
-        name.placeholderString = "表示名（省略可）"
+        name.placeholderString = L("表示名（省略可）")
         let box = NSView(frame: NSRect(x: 0, y: 0, width: 320, height: 54))
         box.addSubview(url)
         box.addSubview(name)
         alert.accessoryView = box
-        alert.addButton(withTitle: "追加")
-        alert.addButton(withTitle: "キャンセル")
+        alert.addButton(withTitle: L("追加"))
+        alert.addButton(withTitle: L("キャンセル"))
         NSApp.activate(ignoringOtherApps: true)
         alert.window.initialFirstResponder = url
         guard alert.runModal() == .alertFirstButtonReturn else { return }
