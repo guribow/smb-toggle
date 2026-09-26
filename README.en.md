@@ -29,12 +29,15 @@ A drive icon appears in the menu bar. After you install a new version, repeat st
 - Click the icon to see your shares. Click a share to mount or unmount it. A check mark means it is mounted.
 - "Mount All" and "Unmount All" work on all shares.
 - A share that is in use is not unmounted. Close open files, then try again.
+- Shares stay mounted when you quit the app.
 
 ## Passwords
 
 The app does not save passwords. It uses the standard macOS way to connect (NetFS).
 If your Keychain has the password, the share mounts right away.
 If not, macOS asks for it. Check "Remember this password in my keychain" so it won't ask next time.
+
+To use a specific user name, save the share as `smb://user@host/share`.
 
 ## Command line (optional)
 
@@ -53,6 +56,12 @@ smbctl toggle <name>                 # mount or unmount
 smbctl add smb://host/share [name]   # save a share
 smbctl remove <name>                 # remove a saved share
 ```
+
+## Troubleshooting
+
+- **"Can't connect to the server":** Check the host name. If a name like `nas.local` does not work, save the share with its IP address.
+- **A mounted share has no check mark:** The saved address and the mounted address are different (for example, IP address and name). Remove the share, then use "Save Mounted Shares".
+- **"Open at Login" shows an error:** Add SMBToggle in System Settings > General > Login Items.
 
 ## Notes
 
@@ -76,4 +85,4 @@ Requires Xcode (swiftc).
 
 ## License
 
-MIT ([LICENSE](LICENSE)). You may use, change and share it. Keep the copyright notice and the license text when you share it. No warranty.
+MIT ([LICENSE](LICENSE)). No warranty.
