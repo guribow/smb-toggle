@@ -32,6 +32,10 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     // メニューを開くたびに作り直す
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
+        let about = NSMenuItem(title: "SMBToggle について", action: #selector(showAbout), keyEquivalent: "")
+        about.target = self
+        menu.addItem(about)
+        menu.addItem(.separator())
         let list = SMBCore.all()
         if list.isEmpty {
             menu.addItem(disabledItem("登録した共有なし"))
@@ -173,6 +177,12 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
               let s = SMBCore.loadShares().first(where: { $0.url == url }) else { return }
         do { try SMBCore.remove(s) } catch { showError(error) }
         updateIcon()
+    }
+
+    /// macOS 標準の「このアプリについて」（アイコン・名前・バージョン・著作権は Info.plist から）
+    @objc private func showAbout() {
+        NSApp.activate(ignoringOtherApps: true)
+        NSApp.orderFrontStandardAboutPanel(options: [.version: ""])   // ビルド番号の「(…)」は出さない
     }
 
     @objc private func toggleLoginItem() {
