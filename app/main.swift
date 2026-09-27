@@ -20,13 +20,25 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
 
     @objc private func volumesChanged() { updateIcon() }
 
+    // 接続中 → マウント中 → マウントなし の順に、当てはまる状態をアイコンで示す
     private func updateIcon() {
-        let anyMounted = SMBCore.all().contains(where: \.mounted)
-        let symbol = anyMounted ? "externaldrive.fill.badge.wifi" : "externaldrive.badge.wifi"
-        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: "SMBToggle")
-            ?? NSImage(systemSymbolName: anyMounted ? "network" : "network.slash", accessibilityDescription: "SMBToggle")
+        let mounted = SMBCore.all().filter(\.mounted).map(\.name)
+        let symbol: String, fallback: String, text: String
+        if !busy.isEmpty {
+            symbol = "externaldrive.badge.timemachine"; fallback = "clock"
+            text = L("接続中: %@", busy.sorted().joined(separator: ", "))
+        } else if !mounted.isEmpty {
+            symbol = "externaldrive.fill.badge.wifi"; fallback = "network"
+            text = L("マウント中: %@", mounted.joined(separator: ", "))
+        } else {
+            symbol = "externaldrive.badge.wifi"; fallback = "network.slash"
+            text = L("マウント中の共有なし")
+        }
+        let image = NSImage(systemSymbolName: symbol, accessibilityDescription: text)
+            ?? NSImage(systemSymbolName: fallback, accessibilityDescription: text)
         image?.isTemplate = true
         statusItem.button?.image = image
+        statusItem.button?.toolTip = text
     }
 
     // メニューを開くたびに作り直す
@@ -115,6 +127,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
     private func mountInBackground(_ targets: [ShareStatus]) {
         let targets = targets.filter { !busy.contains($0.name) }
         targets.forEach { busy.insert($0.name) }
+        if !targets.isEmpty { updateIcon() }
         for s in targets {
             DispatchQueue.global(qos: .userInitiated).async {
                 var failure: Error?

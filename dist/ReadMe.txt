@@ -29,6 +29,10 @@ To start SMBToggle when you log in, click the icon and choose "Open at Login".
   Or choose "Add Share…" and enter smb://host/share.
 - Click the icon to see your shares. Click a share to mount or unmount it.
   A check mark means it is mounted.
+- The icon shows the state.
+  It is filled when a share is mounted, and outlined when none are.
+  A clock badge appears while connecting.
+  Point to the icon to see the names of mounted shares.
 - "Mount All" and "Unmount All" work on all shares.
 - A share that is in use is not unmounted. Close open files, then try again.
 - To see the version, click the icon and choose "About SMBToggle".
