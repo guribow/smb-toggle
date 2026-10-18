@@ -74,6 +74,22 @@ private let english: [String: String] = [
     "登録から外した: %@": "Removed: %@",
     "使い方:\n  smbctl list                    共有の一覧（登録済み＋マウント中）\n  smbctl on [名前]               マウント（名前なしで登録済みをすべて）\n  smbctl off [-f] [名前]         取り外す（名前なしで SMB をすべて、-f で強制）\n  smbctl toggle <名前>           マウント ⇄ 取り外し\n  smbctl add <smb://ホスト/共有> [表示名]\n  smbctl remove <名前>           登録から外す":
         "Usage:\n  smbctl list                    List shares (saved and mounted)\n  smbctl on [name]               Mount (all saved shares if no name)\n  smbctl off [-f] [name]         Unmount (all SMB shares if no name; -f to force)\n  smbctl toggle <name>           Mount or unmount\n  smbctl add <smb://host/share> [name]\n  smbctl remove <name>           Remove a saved share",
+    // アップデート
+    "バージョン %@ にアップデート…": "Update to Version %@…",
+    "アップデートをダウンロード中…": "Downloading Update…",
+    "アップデートを確認…": "Check for Updates…",
+    "アップデートを自動で確認": "Check for Updates Automatically",
+    "アップデートを確認できませんでした": "Couldn't check for updates",
+    "最新のバージョンです": "You're up to date",
+    "バージョン %@ は最新のバージョンです。": "Version %@ is the latest version.",
+    "バージョン %@ にアップデートしますか？": "Update to version %@?",
+    "新しいバージョンをダウンロードして入れ替え、起動し直します。": "The new version will be downloaded and installed, and the app will restart.",
+    "アップデート": "Update",
+    "変更点を見る": "What's New",
+    "ダウンロードしたファイルの中身が違います。": "The downloaded file is not the expected app.",
+    "ダウンロードしたアプリの署名が壊れています。": "The downloaded app's signature is broken.",
+    "アップデートできませんでした": "Couldn't update",
+    "リリースのページを開きます。手動で入れ替えてください。": "The release page will open. Please install it yourself.",
 ]
 
 struct SMBError: LocalizedError {

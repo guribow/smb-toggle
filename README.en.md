@@ -20,7 +20,7 @@ Download the zip from [Releases](https://github.com/guribow/smb-toggle/releases/
 3. Open System Settings > Privacy & Security, scroll down, click "Open Anyway" and enter your password.
 4. Double-click the app again and click "Open".
 
-A drive icon appears in the menu bar. After you install a new version, repeat steps 2-4.
+A drive icon appears in the menu bar. If you install a new version from the zip, repeat steps 2-4. This is not needed when you use "Update" in the menu.
 
 ## How to use
 
@@ -31,6 +31,7 @@ A drive icon appears in the menu bar. After you install a new version, repeat st
 - "Mount All" and "Unmount All" work on all shares.
 - A share that is in use is not unmounted. Close open files, then try again.
 - Shares stay mounted when you quit the app.
+- When a new version is out, a small dot appears on the menu bar icon. Choose "Update to Version …" at the top of the menu to install it and restart. The command (`smbctl`) is not updated. Install it again from the zip if you use it.
 
 ## Passwords
 
@@ -66,7 +67,7 @@ smbctl remove <name>                 # remove a saved share
 
 ## Notes
 
-- Privacy: the app connects only to the servers you save. It sends no other data.
+- Privacy: the app connects only to the servers you save. Once a day, the app asks GitHub for the latest version. You can turn this off with "Check for Updates Automatically" in the menu. It sends no other data.
 
 ## Uninstall
 

@@ -12,6 +12,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         menu.delegate = self
         statusItem.menu = menu
         updateIcon()
+        Updater.shared.onChange = { [weak self] in self?.updateIcon() }
+        Updater.shared.start()
         // Finder など他の手段でマウント・取り外しされてもアイコンを更新
         let nc = NSWorkspace.shared.notificationCenter
         nc.addObserver(self, selector: #selector(volumesChanged), name: NSWorkspace.didMountNotification, object: nil)
@@ -37,13 +39,14 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         let image = NSImage(systemSymbolName: symbol, accessibilityDescription: text)
             ?? NSImage(systemSymbolName: fallback, accessibilityDescription: text)
         image?.isTemplate = true
-        statusItem.button?.image = image
+        statusItem.button?.image = Updater.shared.badge(image)
         statusItem.button?.toolTip = text
     }
 
     // メニューを開くたびに作り直す
     func menuNeedsUpdate(_ menu: NSMenu) {
         menu.removeAllItems()
+        Updater.shared.topMenuItems().forEach(menu.addItem)
         let about = NSMenuItem(title: L("SMBToggle について"), action: #selector(showAbout), keyEquivalent: "")
         about.target = self
         menu.addItem(about)
@@ -103,6 +106,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
         login.target = self
         login.state = SMAppService.mainApp.status == .enabled ? .on : .off
         menu.addItem(login)
+        Updater.shared.settingsMenuItems().forEach(menu.addItem)
         menu.addItem(NSMenuItem(title: L("終了"), action: #selector(NSApplication.terminate(_:)), keyEquivalent: "q"))
     }
 

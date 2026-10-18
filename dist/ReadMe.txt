@@ -36,6 +36,9 @@ To start SMBToggle when you log in, click the icon and choose "Open at Login".
 - "Mount All" and "Unmount All" work on all shares.
 - A share that is in use is not unmounted. Close open files, then try again.
 - To see the version, click the icon and choose "About SMBToggle".
+- When a new version is out, a small dot appears on the icon.
+  Choose "Update to Version …" at the top of the menu to install it.
+  smbctl is not updated. Install it again from the new zip if you use it.
 
 
 == Passwords ==
@@ -63,8 +66,11 @@ In Terminal, go to this folder and run:
 
 == Notes ==
 
-- After you install a new version, repeat steps 3-5 of "Install".
-- The app connects only to the servers you save. It sends no other data.
+- If you install a new version from the zip, repeat steps 3-5 of "Install".
+  This is not needed when you use "Update" in the menu.
+- The app connects only to the servers you save, and asks GitHub for
+  the latest version once a day. It sends no other data.
+  You can turn off the update check with "Check for Updates Automatically".
 
 
 == Uninstall ==
