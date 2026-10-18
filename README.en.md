@@ -65,7 +65,7 @@ smbctl remove <name>                 # remove a saved share
 - **A mounted share has no check mark:** The saved address and the mounted address are different (for example, IP address and name). Remove the share, then use "Save Mounted Shares".
 - **"Open at Login" shows an error:** Add SMBToggle in System Settings > General > Login Items.
 
-## Notes
+## About connections and updates
 
 - Privacy: the app connects only to the servers you save. Once a day, the app asks GitHub for the latest version. You can turn this off with "Check for Updates Automatically" in the menu. It sends no other data.
 

@@ -64,7 +64,7 @@ In Terminal, go to this folder and run:
   smbctl add smb://host/share   Save a share
 
 
-== Notes ==
+== About connections and updates ==
 
 - If you install a new version from the zip, repeat steps 3-5 of "Install".
   This is not needed when you use "Update" in the menu.
