@@ -56,7 +56,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSMenuDelegate {
             menu.addItem(disabledItem(L("登録した共有なし")))
         }
         for s in list {
-            var title = s.registered ? s.name : L("%@（未登録）", s.name)
+            var title = s.host.map { "\(s.name) — \($0)" } ?? s.name
+            if !s.registered { title = L("%@（未登録）", title) }
             if busy.contains(s.name) { title += L(" …接続中") }
             let item = NSMenuItem(title: title, action: #selector(toggleShare(_:)), keyEquivalent: "")
             item.target = self

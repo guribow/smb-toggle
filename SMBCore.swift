@@ -14,6 +14,8 @@ struct ShareStatus {
     var mountFrom: String? = nil   // マウント元（//user@host/share）
     var mounted: Bool { mountPoint != nil }
     var registered: Bool { url != nil }
+    // つなぎ先のパソコン名（メニューに出す用）
+    var host: String? { SMBCore.displayHost(ofURL: url ?? mountFrom.map { "smb:" + $0 } ?? "") }
 }
 
 /// 画面に出す文字列。日本語をキーにし、Mac の言語が日本語でなければ英語にする。
@@ -211,6 +213,16 @@ enum SMBCore {
             s.removeLast(suffix.count)
         }
         return s
+    }
+
+    // 画面に出すパソコン名。元の大文字小文字のまま、Bonjour 名と .local の末尾だけ外す
+    static func displayHost(ofURL str: String) -> String? {
+        guard var h = URLComponents(string: escaped(str))?.host, !h.isEmpty else { return nil }
+        if h.hasSuffix(".") { h.removeLast() }
+        for suffix in ["._smb._tcp.local", ".local"] where h.lowercased().hasSuffix(suffix) {
+            h.removeLast(suffix.count)
+        }
+        return h
     }
 
     // 共有名に空白などがあっても URL として読めるようにする（%xx 済みならそのまま）

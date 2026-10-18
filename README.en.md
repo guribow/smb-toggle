@@ -26,7 +26,7 @@ A drive icon appears in the menu bar. If you install a new version from the zip,
 
 - **Save a share (easiest way):** Connect once with Finder > Go > Connect to Server,
   then click the icon and choose "Save Mounted Shares". Or choose "Add Share…" and enter `smb://host/share`.
-- Click the icon to see your shares. Click a share to mount or unmount it. A check mark means it is mounted.
+- Click the icon to see your shares and the computers they are on. Click a share to mount or unmount it. A check mark means it is mounted.
 - The icon shows the state. It is filled when a share is mounted, and outlined when none are. A clock badge appears while connecting. Point to the icon to see the names of mounted shares.
 - "Mount All" and "Unmount All" work on all shares.
 - A share that is in use is not unmounted. Close open files, then try again.
