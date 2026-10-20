@@ -85,6 +85,10 @@ Requires Xcode (swiftc).
 ./dist.sh    # makes the zips in dist/
 ```
 
+## Questions and Problems
+
+Please use [GitHub Issues](https://github.com/guribow/smb-toggle/issues).
+
 ## License
 
 MIT ([LICENSE](LICENSE)). No warranty.
