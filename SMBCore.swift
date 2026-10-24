@@ -30,6 +30,7 @@ func L(_ ja: String, _ args: CVarArg...) -> String { String(format: L(ja), argum
 private let english: [String: String] = [
     "登録済み: %@": "Already saved: %@",
     "URL が不正: %@": "Invalid URL: %@",
+    "smb://ホスト/共有名 の形で指定してください: %@": "Use the form smb://host/share: %@",
     "キャンセルしました: %@": "Canceled: %@",
     "認証に失敗しました: %@": "Sign-in failed: %@",
     "共有が見つかりません: %@": "Share not found: %@",
@@ -123,7 +124,7 @@ enum SMBCore {
         var s = raw.trimmingCharacters(in: .whitespaces)
         if !s.lowercased().hasPrefix("smb://") { s = "smb://" + s }
         s = escaped(s)
-        guard let key = key(ofURL: s) else { throw SMBError("smb://ホスト/共有名 の形で指定してください: \(raw)") }
+        guard let key = key(ofURL: s) else { throw SMBError(L("smb://ホスト/共有名 の形で指定してください: %@", raw)) }
         var shares = loadShares()
         if shares.contains(where: { Self.key(ofURL: $0.url) == key }) { throw SMBError(L("登録済み: %@", s)) }
         // 表示名の既定は共有名（照合用の key は小文字なので、URL から元の表記を取る）
